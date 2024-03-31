@@ -6,19 +6,36 @@ on:
   pull_request:
     branches: [main]
 
-    
 jobs:
-  build-and-test:
+  unit-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout respository
-        uses: actions/checkout@v3
+      - name: Checkout respository 😶
+        uses: actions/checkout@v4
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
       - run: npm ci
         name: Install modules from npm
-      - run: npm run build
-        name: Build the application
       - run: npm test
         name: Run the tests
+  build:
+        runs-on: ubuntu-latest
+
+        steps:
+        - name: Checkout respository
+          uses: actions/checkout@v4
+        - name: Setup Node
+          uses: actions/setup-node@v4
+          with:
+            node-version: 20
+            cache: 'npm'
+        - run: npm ci
+          name: Install modules from npm
+        - run: npm run build
+          name: Build the application
+        - run: npm test
+          name: Run the tests
